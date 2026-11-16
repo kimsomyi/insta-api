@@ -6,6 +6,7 @@ from database import engine
 from models import Post
 
 
+
 password_hash = PasswordHash.recommended()
 
 def get_db():

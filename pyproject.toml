@@ -7,5 +7,14 @@ dependencies = [
     "fastapi[standard]>=0.162.5",
     "psycopg[binary]>=3.3.9",
     "pwdlib[argon2]>=0.3.1",
+    "pyjwt>=2.15.1",
     "sqlalchemy>=2.1.8",
 ]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.2.0",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]

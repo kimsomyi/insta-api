@@ -4,7 +4,9 @@ from models import Post
 from sqlalchemy import select
 from schemas import PostOut, PostCreate, PostUpdate
 
-router = APIRouter(prefix='/api/posts')
+
+# router = APIRouter(prefix='/api/posts')
+router = APIRouter(prefix='/api/posts', tags=['posts'])
 
 # @router.get('/posts')
 # def post_list():
@@ -47,3 +49,9 @@ def post_update(post: PostDep, data: PostUpdate, db: SessionDep):
     post.content = data.content
     db.commit()
     return post
+
+@router.delete('/{post_id}',status_code=204)
+def post_delete(post: PostDep, db: SessionDep):
+    db.delete(post)
+    db.commit()
+    # return을 안 써 놔도 python은 return None으로 보냄

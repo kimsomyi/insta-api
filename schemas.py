@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from datetime import datetime
 
 
@@ -6,8 +6,19 @@ class UserOut(BaseModel):
     id: int
     username: str
 
+# 게시물 리턴 구조
 class PostOut(BaseModel):
     id: int
     content: str
     created_at: datetime
     user: UserOut
+
+
+# 게시물 생성 구조
+class PostCreate(BaseModel):
+    content: str = Field(min_length=1, max_length=500)
+    user_id: int
+
+
+class PostUpdate(BaseModel):
+    content: str = Field(min_length=1, max_length=500)

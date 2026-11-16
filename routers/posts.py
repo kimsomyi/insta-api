@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from deps import SessionDep, PostDep
+from deps import SessionDep, PostDep, CurrentUserDep
 from models import Post
 from sqlalchemy import select
 from schemas import PostOut, PostCreate, PostUpdate
@@ -37,8 +37,8 @@ def post_detail(post: PostDep):
 
 # 게시물 생성 요청 메소드
 @router.post('', response_model=PostOut, status_code=201)
-def post_create(data: PostCreate, db: SessionDep):
-    post = Post(content=data.content, user_id=data.user_id)
+def post_create(data: PostCreate, db: SessionDep, user: CurrentUserDep):
+    post = Post(content=data.content, user_id=user.id)
     db.add(post)
     db.commit()
     return post

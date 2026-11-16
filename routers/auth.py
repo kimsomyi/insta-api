@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, Depends
 from schemas import UserCreate, UserOut, Token
-from deps import SessionDep, password_hash, create_access_token
+from deps import SessionDep, password_hash, create_access_token, CurrentUserDep
 from models import User
 from sqlalchemy import select
 from fastapi.security import OAuth2PasswordRequestForm
@@ -35,6 +35,11 @@ def login(form: Annotated[OAuth2PasswordRequestForm, Depends(OAuth2PasswordReque
 
     # 신분증 발행
     token = create_access_token(user.id)
+    # database에 기록하지 않음 싸인 된 신분증을 사용자에게 넘겨 주기만 함g
 
     # acess token 리턴
     return {'access_token': 'token', 'token_type': 'bearer'}
+
+@router.get('/me', response_model=UserOut)
+def me(user: CurrentUserDep):
+    return user
